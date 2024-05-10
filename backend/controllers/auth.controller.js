@@ -184,24 +184,24 @@ export const signOut = (req, res) => {
             message: "prevToken not found"
         })
 
-        res.clearCookie()
-        res.status(200).send({
-            success: true,
-            message: "User sign out successfully"
-        })
-
-        // JWT.verify(String(prevToken), "gaethtr8h47969a48r7ger8wh8y775d8g4s9", (err, user)=> {
-        //     if(err) return res.status(400).send(`Error in verify prevToken: ${err}`)
-
-        //     res.clearCookie(`${user._id}`)
-        //     req.cookies[`${user._id}`] = ""
-
-        //     res.status(200).send({
-        //         success: true,
-        //         message: "User sign out successfully"
-        //     })
-
+        // res.clearCookie()
+        // res.status(200).send({
+        //     success: true,
+        //     message: "User sign out successfully"
         // })
+
+        JWT.verify(String(prevToken), "gaethtr8h47969a48r7ger8wh8y775d8g4s9", (err, user)=> {
+            if(err) return res.status(400).send(`Error in verify prevToken: ${err}`)
+
+            res.clearCookie(`${user._id}`)
+            req.cookies[`${user._id}`] = ""
+
+            res.status(200).send({
+                success: true,
+                message: "User sign out successfully"
+            })
+
+        })
 
     } catch (error) {
         console.log(`Error in signout controller: ${error}`);
